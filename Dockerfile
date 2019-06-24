@@ -1,14 +1,13 @@
-FROM sdhibit/rpi-raspbian:jessie
+FROM balenalib/raspberrypi3-debian:stretch
 
-MAINTAINER Simon Chuang "simon.s.chuang@gmail.com"
+MAINTAINER Paul Harter "paul@glowinthedark.co.uk"
+
+RUN [ "cross-build-start" ]
 
 RUN apt-get update --fix-missing && apt-get install -y \
     hostapd \
-    dbus \
-    net-tools \
-    iptables \
     dnsmasq \
-    vim \
+
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ADD hostapd.conf /etc/hostapd/hostapd.conf
@@ -18,3 +17,5 @@ ADD dnsmasq.conf /etc/dnsmasq.conf
 Add entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+RUN [ "cross-build-end" ]
